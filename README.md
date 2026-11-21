@@ -61,7 +61,6 @@ it on the phone with nothing left to guess.
 Here's the Gherkin of the video above:
 
 ```gherkin
-@phone
 Scenario: Text post icon opens a text post's text with a page icon whose chevron flips
   Given Reddit has a post "Read me" in r/e2e with the text "The hidden text"
   And BaconReader is patched with every patch
@@ -112,7 +111,6 @@ says, in order:
 [Theory, PlayOnPhone]
 [PatchedWithEveryPatch]
 [TestDescription("""
-    @phone
     Scenario: Text post icon opens a text post's text with a page icon whose chevron flips
       Given Reddit has a post "Read me" in r/e2e with the text "The hidden text"
       And BaconReader is patched with every patch
@@ -214,7 +212,7 @@ Most people write many short tests, each checking one small thing. I went the ot
 that plays the whole of it.
 
 Take "Embed comment images", with its "Show images" setting. Off, a comment shows a link. On, it shows the image.
-That's one feature, so it's one video that shows both. Some of mine run seven minutes.
+That's one feature, so it's one video that shows both. Some of mine run several minutes.
 
 Why? Because that's what a training looks like. If someone sat next to you to show you a feature, they wouldn't
 cut it into twelve clips.
@@ -232,9 +230,8 @@ The guide for the BaconReader patches: [joancomasfdz.github.io/baconreader-resea
 
 ## Block 9: Installing and updating, recorded too
 
-Furthermore, how to install the app and how to update it are scenarios too, recorded like any other. So the guide
-starts with how to get the app, and the person reading it watches each step instead of following screenshots that
-may be out of date.
+Installing the app and updating it are scenarios too, recorded like any other. So the guide starts with how to get
+the app, and you watch each step instead of following screenshots that may be out of date.
 
 ## Block 10: The video next to the code
 
@@ -269,6 +266,9 @@ beforehand. If the code isn't what I wanted, I'll see it in the app.
 Fair questions. They're not arguments against this; they're the next things to build. For performance I'd do the same thing:
 an environment that measures it, runs every night, gathers the evidence and shows me what got better or worse. I'd
 look at the results, not the code.
+
+Security is next on my list, and it will follow the same pattern: an environment that checks the app, gathers the
+evidence and shows me what it found. Again, I'd look at the results, not the code.
 
 And to be clear: this is how I build my own apps. At work, I still read the code.
 
