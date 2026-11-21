@@ -271,17 +271,13 @@ look at the results, not the code.
 
 And to be clear: this is how I build my own apps. At work, I still read the code.
 
-## More living proof
-
-It isn't only for Android. [Loopsmith](https://github.com/JoanComasFdz/destiny-loopsmith), my Destiny 2 build
-designer, is a web app built the same way: its Gherkins play in a browser, on a desktop and on a phone screen, and
-every pull request gets its recordings, the same player and the same VS Code extension.
-
-Try it: [joancomasfdz.github.io/destiny-loopsmith](https://joancomasfdz.github.io/destiny-loopsmith/).
-
 ---
 
-*Living Proof is how I build the BaconReader patches, for [Reseam](https://github.com/JoanComasFdz/baconreader-reseam-patches) and [Morphe](https://github.com/JoanComasFdz/baconreader-morphe-patches), and [Loopsmith](https://github.com/JoanComasFdz/destiny-loopsmith).*
+Living Proof is how I build:
+
+- the BaconReader patches for [Reseam](https://github.com/JoanComasFdz/baconreader-reseam-patches),
+- the BaconReader patches for [Morphe](https://github.com/JoanComasFdz/baconreader-morphe-patches),
+- [Loopsmith](https://github.com/JoanComasFdz/destiny-loopsmith).
 
 ---
 
