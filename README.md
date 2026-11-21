@@ -79,8 +79,15 @@ That's it.
 
 ## Block 5: Green, recorded, posted
 
-Here's the honest part: I often don't read the Gherkin when it's proposed. I say "go ahead". Because the rest of the
-rules take care of it:
+I always read the Gherkin. The question is when.
+
+The first time I do something new, I read it before anything gets built, and I fix what's wrong. The second time, I
+skim it, and usually it's fine. By the third or fourth time, the rules have proven themselves, so I just say "go
+ahead" and read the Gherkin afterwards, with the video next to it. Watching the app do it is more engaging than
+picturing it from text, and it tells me more.
+
+That's judgement, not a rule. It works because the rest of the instructions take care of everything after the
+Gherkin:
 
 - you write the Gherkin, so you write its test;
 - you run it, and it has to pass;
