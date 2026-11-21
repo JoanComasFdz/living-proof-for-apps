@@ -50,40 +50,54 @@ Here is how it's built, one block at a time.
 
 ---
 
-## Block 1: Ask me what's missing, don't grill me
+## Block 1: Say exactly what the app should do
 
-Every repo has a set of instructions for the AI. The first one: whenever I ask for something, look at the code, look
-at what I said, and ask me about the gaps. Contradictions, things I must decide, or something we've never done before
-and you want to know how I want it.
+WHen I prompt for a task, the AI shows me how it will prove the feature works, as Gherkin: Given, When, Then.
 
-Only that. I don't want a questionnaire. Two or three good questions, and we move on.
-
-## Block 2: Say exactly what the app should do
-
-Then the AI shows me how it will prove the feature works, as Gherkin: Given, When, Then.
-
-I have a whole file on how to write a Gherkin. The language is precise: on this screen, tap this button, this text
-shows. The texts are copied from the screen, never from the code. Anyone could pick up the Gherkin and play it on the
+I have a whole file on how to write a Gherkin. I use precise language: on this screen, tap this button, this text
+shows., And the texts are copied from the UIs, never from the code. This way anyone could pick up the Gherkin and play it on the
 phone with nothing left to guess.
 
 ```gherkin
-[a real Gherkin from the patches]
+Scenario: Text post icon opens a text post's text with a page icon whose chevron flips
+Given Reddit has a post "Read me" in r/e2e with the text "The hidden text"
+And BaconReader is patched with every patch
+And the test account is logged in
+And BaconReader is open
+When I select the "e2e" feed
+# BaconReader starts in the card view. The icon's description says what tapping it does.
+Then the post "Read me" shows "Show post text"
+And the post "Read me" shows no text
+When I tap "Show post text" on the post "Read me"
+Then the post "Read me" shows the text "The hidden text"
+And the post "Read me" shows "Hide post text"
+When I tap "Hide post text" on the post "Read me"
+Then the post "Read me" shows no text
+And the post "Read me" shows "Show post text"
+When I tap "More options" in the toolbar
+And I tap "List View"
+Then the post "Read me" shows "Show post text"
+When I tap "Show post text" on the post "Read me"
+Then the post "Read me" shows the text "The hidden text"
+And the post "Read me" shows "Hide post text"
+When I tap "Hide post text" on the post "Read me"
+Then the post "Read me" shows no text
+And the post "Read me" shows "Show post text"
 ```
 
-## Block 3: A place where the app can really run
+## Block 2: A place where the app can really run
 
 This is where I invested the most.
 
-For a web page it's simple: open a browser with Playwright and click around. My app runs on a phone, so I have a real
-phone, plugged into my NAS at home, reachable only through my own private network. Next to it run fake versions of
-the services the app talks to, like Reddit, so every test starts from the same state.
+For a web page it's simple: open a browser with Playwright and click around.
 
-The AI can install the app, start it, change its settings, reset it and open it again, on its own. And because all of
-it works from a cloud session, I can do everything from my phone.
+For a patched APK not so much: I have a real phone, plugged into my NAS at home, accessible only from a docker container running in my NAS, reachable only through my own private network.
 
-It took a lot of work to make it fast, isolated and reliable. That work is what everything else stands on.
+For both I use simulators for the 3rd party dependencies like Reddit, so every test starts from the same state. The Simulators are configurable and have UIs, so that when they are set up during a test, the setup steps can be seen in the video.
 
-## Block 4: One Gherkin, one test, no translation layer
+It took a lot of work to make it secure, reliable and fast. That work is what everything else stands on.
+
+## Block 3: One Gherkin, one test, no translation layer
 
 Each Gherkin becomes exactly one end-to-end test in C#. It holds the Gherkin word for word and does what each line
 says, in order.
@@ -102,7 +116,76 @@ With an LLM, that layer is gone. I have three plain Markdown files:
 That's it.
 
 ```csharp
-[one real test from the patches, short]
+[Theory, PlayOnPhone]
+public async Task TextPostIconOpensATextPostsTextWithAPageIconWhoseChevronFlips(Screen screen)
+{
+    // Given
+    Reddit.HasAPostWithTheText("Read me", "e2e", "The hidden text");
+    Reddit.TheTestAccountIsLoggedIn();
+    await Phone.BaconReader.OpenAsync();
+
+    // When
+    await Phone.BaconReader.Main.Toolbar.SelectFeedAsync(new Feed.Subreddit("e2e"));
+    await Phone.BaconReader.Main.Toolbar.WaitUntilFeedShownAsync(new Feed.Subreddit("e2e"));
+    await Phone.BaconReader.Main.Posts.WaitUntilOnlyPostsShownAsync("Read me");
+
+    // Then
+    // BaconReader starts in the card view. The icon's description says what tapping it does.
+    var cardClosed = await Phone.BaconReader.Main.Posts.ReadPostAsync("Read me");
+    Asserting.That(cardClosed)
+        .ShowsNoText()
+        .ShowsTheTextButton(new TextPostButton.ShowPostText());
+
+    // When
+    await Phone.BaconReader.Main.Posts.ClickTextButtonAsync("Read me", new TextPostButton.ShowPostText());
+    await Phone.BaconReader.Main.Posts.WaitUntilPostTextShownAsync("Read me");
+
+    // Then
+    var cardOpen = await Phone.BaconReader.Main.Posts.ReadPostAsync("Read me");
+    Asserting.That(cardOpen)
+        .ShowsTheText("The hidden text")
+        .ShowsTheTextButton(new TextPostButton.HidePostText());
+
+    // When
+    await Phone.BaconReader.Main.Posts.ClickTextButtonAsync("Read me", new TextPostButton.HidePostText());
+    await Phone.BaconReader.Main.Posts.WaitUntilPostTextHiddenAsync("Read me");
+
+    // Then
+    var cardClosedAgain = await Phone.BaconReader.Main.Posts.ReadPostAsync("Read me");
+    Asserting.That(cardClosedAgain)
+        .ShowsNoText()
+        .ShowsTheTextButton(new TextPostButton.ShowPostText());
+
+    // When
+    await Phone.BaconReader.Main.Toolbar.ClickMoreOptionsAsync();
+    await Phone.BaconReader.Main.Toolbar.MoreOptions.WaitUntilShownAsync();
+    await Phone.BaconReader.Main.Toolbar.MoreOptions.ClickAsync(new OverflowMenuEntry.ListView());
+    await Phone.BaconReader.Main.Posts.WaitUntilShownAsRowsAsync();
+
+    // Then
+    var rowClosed = await Phone.BaconReader.Main.Posts.ReadPostAsync("Read me");
+    Asserting.That(rowClosed).ShowsTheTextButton(new TextPostButton.ShowPostText());
+
+    // When
+    await Phone.BaconReader.Main.Posts.ClickTextButtonAsync("Read me", new TextPostButton.ShowPostText());
+    await Phone.BaconReader.Main.Posts.WaitUntilPostTextShownAsync("Read me");
+
+    // Then
+    var rowOpen = await Phone.BaconReader.Main.Posts.ReadPostAsync("Read me");
+    Asserting.That(rowOpen)
+        .ShowsTheText("The hidden text")
+        .ShowsTheTextButton(new TextPostButton.HidePostText());
+
+    // When
+    await Phone.BaconReader.Main.Posts.ClickTextButtonAsync("Read me", new TextPostButton.HidePostText());
+    await Phone.BaconReader.Main.Posts.WaitUntilPostTextHiddenAsync("Read me");
+
+    // Then
+    var rowClosedAgain = await Phone.BaconReader.Main.Posts.ReadPostAsync("Read me");
+    Asserting.That(rowClosedAgain)
+        .ShowsNoText()
+        .ShowsTheTextButton(new TextPostButton.ShowPostText());
+}
 ```
 
 ## Block 5: Green, recorded, posted
