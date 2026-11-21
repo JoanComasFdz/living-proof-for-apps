@@ -239,7 +239,11 @@ may be out of date.
 
 The recordings were in the PRs and in the guide, but not where I read the tests. So I built a VS Code extension: it
 puts a button on top of each end-to-end test, and clicking it opens the player next to the code, with the Gherkin and
-its newest video.
+its newest video:
+
+[![The extension's own e2e test: a button on top of a test opens its phone recording beside the code](media/vscode-extension-demo.gif)](media/vscode-extension-demo.mp4)
+
+**[▶ Explore it with its Gherkin in the player](https://joancomasfdz.github.io/baconreader-reseam-patches/e2e-player.html?v=pr-103-v3-play-phone-recording-opens-the-phone-video-beside-the-code-desktop.mp4#s=vVNfT9swEP8qp_CKE9pVQ6s0bYVJCAlpVVvBw7oHN742Hokv8jllbNp3x3bc0hV4m_aU5Oz7_bvL72yTjbPPCvneUbs08xKNtJrGMK3lI7QVGQSLJVmlzQaoRcPgKkwnW62QYIXsn7FcksKlATiBLz0kkKkfx_EMfzrfrcmA7TyKNnA7h0vf4O-AhKQhD-1XeosmNlmsUTJCRbXiVElqGGgNy-7sbDict0Try1qjcQtkx3nJ_QGsLTUwncHJu_fx7sU53A5AGhWLo8FzMfBOfD0hpiC4mDtpXdcWk7KkzrjigKt4m1dzDCuA3lXeyzU42Sbs16LdtRnQjmMqNz6s0L6oUhStNFgniNl-JEn_hSzJzFAqtFPpygrVnXbVgb4b2vC1WdAMldJuwv7ZX0_MXNEDvzbKkEnQ5LSrMfjqGw4IvbLICA-eEiInlJEUas8aTDmCnhgkwxH1M4mPQyp-Y6Y7p0fz2JVfjPMI2xuQKwZpcTeFMID-9fRlCdgvXulQHahr_dx26lorRgOxHYhVyEHY6EekIEQIQnAwIPogRAhCaCMc-bshCCE5vO07A3XetKOdophlkO3hnaWa_97Pr365QrA4xKjLT2HZDQcfzpP8DSGH1PvPyrmWx0Xxg6QpqZG8Vr_yjWfoVrmmInpIQiwyyiY54cLjix4_r1xTf9p-_D_OwwZeVWjvvcf9b_7vdi47zZps_O37nyc)**
 
 That wasn't enough for me either. The extension got its own end-to-end tests, recorded like the app's, so I can see
 the extension working too.
