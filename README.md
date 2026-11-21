@@ -52,10 +52,10 @@ Here is how it's built, one block at a time.
 
 ## Block 1: Say exactly what the app should do
 
-WHen I prompt for a task, the AI shows me how it will prove the feature works, as Gherkin: Given, When, Then.
+When I prompt for a task, the AI shows me how it will prove the feature works, as Gherkin: Given, When, Then.
 
 I have a whole file on how to write a Gherkin. I use precise language: on this screen, tap this button, this text
-shows., And the texts are copied from the UIs, never from the code. This way anyone could pick up the Gherkin and play it on the
+shows. And the texts are copied from the UIs, never from the code. This way anyone could pick up the Gherkin and play it on the
 phone with nothing left to guess.
 
 ```gherkin
@@ -91,7 +91,7 @@ This is where I invested the most.
 
 For a web page it's simple: open a browser with Playwright and click around.
 
-For a patched APK not so much: I have a real phone, plugged into my NAS at home, accessible only from a docker container running in my NAS, reachable only through my own private network.
+For a patched APK not so much: I have a real phone, plugged into my NAS at home, accessible only from a Docker container running in my NAS, reachable only through my own private network.
 
 For both I use simulators for the 3rd party dependencies like Reddit, so every test starts from the same state. The Simulators are configurable and have UIs, so that when they are set up during a test, the setup steps can be seen in the video.
 
