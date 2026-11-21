@@ -274,7 +274,7 @@ And to be clear: this is how I build my own apps. At work, I still read the code
 
 ---
 
-*Living Proof is how I build [BaconReader patches](https://github.com/JoanComasFdz/baconreader-morphe-patches).*
+*Living Proof is how I build the BaconReader patches, for [Reseam](https://github.com/JoanComasFdz/baconreader-reseam-patches) and [Morphe](https://github.com/JoanComasFdz/baconreader-morphe-patches).*
 
 ---
 
