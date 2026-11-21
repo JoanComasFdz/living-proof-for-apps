@@ -227,11 +227,24 @@ recording playing next to its Gherkin. Nobody writes it, and it can't go stale, 
 
 When a user asks how something works, I send them the guide: "this is how it works."
 
-## Block 9: Then I kept going
+The guide for the BaconReader patches: [joancomasfdz.github.io/baconreader-reseam-patches](https://joancomasfdz.github.io/baconreader-reseam-patches).
 
-- **Installing and updating** are recorded too, so the guide starts with how to get the app.
-- **A VS Code extension**: open a test, click "Play", and the Gherkin and its video open next to the code.
-- **The extension has its own recorded tests**, so the extension shows how it works the same way.
+## Block 9: Installing and updating, recorded too
+
+Furthermore, how to install the app and how to update it are scenarios too, recorded like any other. So the guide
+starts with how to get the app, and the person reading it watches each step instead of following screenshots that
+may be out of date.
+
+## Block 10: The video next to the code
+
+The recordings were in the PRs and in the guide, but not where I read the tests. So I built a VS Code extension: it
+puts a button on top of each end-to-end test, and clicking it opens the player next to the code, with the Gherkin and
+its newest video.
+
+That wasn't enough for me either. The extension got its own end-to-end tests, recorded like the app's, so I can see
+the extension working too.
+
+Basically, I applied this whole workflow everywhere.
 
 ## What my job is now
 
