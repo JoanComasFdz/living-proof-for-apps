@@ -58,65 +58,72 @@ I have a whole file on how to write a Gherkin. I use precise language: on this s
 shows. And the texts are copied from the UIs, never from the code. This way anyone could pick up the Gherkin and play it on the
 phone with nothing left to guess.
 
+Here's the Gherkin of the video above:
+
 ```gherkin
 Scenario: Text post icon opens a text post's text with a page icon whose chevron flips
-Given Reddit has a post "Read me" in r/e2e with the text "The hidden text"
-And BaconReader is patched with every patch
-And the test account is logged in
-And BaconReader is open
-When I select the "e2e" feed
-# BaconReader starts in the card view. The icon's description says what tapping it does.
-Then the post "Read me" shows "Show post text"
-And the post "Read me" shows no text
-When I tap "Show post text" on the post "Read me"
-Then the post "Read me" shows the text "The hidden text"
-And the post "Read me" shows "Hide post text"
-When I tap "Hide post text" on the post "Read me"
-Then the post "Read me" shows no text
-And the post "Read me" shows "Show post text"
-When I tap "More options" in the toolbar
-And I tap "List View"
-Then the post "Read me" shows "Show post text"
-When I tap "Show post text" on the post "Read me"
-Then the post "Read me" shows the text "The hidden text"
-And the post "Read me" shows "Hide post text"
-When I tap "Hide post text" on the post "Read me"
-Then the post "Read me" shows no text
-And the post "Read me" shows "Show post text"
+  Given Reddit has a post "Read me" in r/e2e with the text "The hidden text"
+  And BaconReader is patched with every patch
+  And the test account is logged in
+  And BaconReader is open
+  When I select the "e2e" feed
+  # BaconReader starts in the card view. The icon's description says what tapping it does.
+  Then the post "Read me" shows "Show post text"
+  And the post "Read me" shows no text
+  When I tap "Show post text" on the post "Read me"
+  Then the post "Read me" shows the text "The hidden text"
+  And the post "Read me" shows "Hide post text"
+  When I tap "Hide post text" on the post "Read me"
+  Then the post "Read me" shows no text
+  And the post "Read me" shows "Show post text"
+  When I tap "More options" in the toolbar
+  And I tap "List View"
+  Then the post "Read me" shows "Show post text"
+  When I tap "Show post text" on the post "Read me"
+  Then the post "Read me" shows the text "The hidden text"
+  And the post "Read me" shows "Hide post text"
+  When I tap "Hide post text" on the post "Read me"
+  Then the post "Read me" shows no text
+  And the post "Read me" shows "Show post text"
 ```
 
 ## Block 2: A place where the app can really run
 
-This is where I invested the most.
-
 For a web page it's simple: open a browser with Playwright and click around.
 
-For a patched APK not so much: I have a real phone, plugged into my NAS at home, accessible only from a Docker container running in my NAS, reachable only through my own private network.
+For a patched APK, not so much. I have a real phone plugged into my NAS at home. Only a Docker container on the NAS can
+reach it, and only through my private network.
 
-For both I use simulators for the 3rd party dependencies like Reddit, so every test starts from the same state. The Simulators are configurable and have UIs, so that when they are set up during a test, the setup steps can be seen in the video.
+For both, I use simulators for the third-party services the app depends on, like Reddit, so every test starts from
+the same state. The simulators are configurable and have their own screens, so when a test sets one up, the setup
+plays in the video too: even the Given is something you can watch.
 
 It took a lot of work to make it secure, reliable and fast. That work is what everything else stands on.
 
 ## Block 3: One Gherkin, one test, no translation layer
 
 Each Gherkin becomes exactly one end-to-end test in C#. It holds the Gherkin word for word and does what each line
-says, in order.
-
-You might say: "That's what SpecFlow is for." It isn't, for me. SpecFlow needs a layer in between: small, disconnected
-functions that match your sentences. And everyone writes their sentences their own way. "When the simulator is
-loaded", "when the simulator is ready", "when the simulator is configured"... and instead of agreeing on one language,
-you end up with a pile of regexes for the same step.
-
-With an LLM, that layer is gone. I have three plain Markdown files:
-
-1. how to write a Gherkin,
-2. how to write an end-to-end test,
-3. how to turn one into the other, line by line.
-
-That's it.
+says, in order:
 
 ```csharp
 [Theory, PlayOnPhone]
+[PatchedWithEveryPatch]
+[TestDescription("""
+    @phone
+    Scenario: Text post icon opens a text post's text with a page icon whose chevron flips
+      Given Reddit has a post "Read me" in r/e2e with the text "The hidden text"
+      And BaconReader is patched with every patch
+      And the test account is logged in
+      And BaconReader is open
+      When I select the "e2e" feed
+      # BaconReader starts in the card view. The icon's description says what tapping it does.
+      Then the post "Read me" shows "Show post text"
+      And the post "Read me" shows no text
+      When I tap "Show post text" on the post "Read me"
+      Then the post "Read me" shows the text "The hidden text"
+      And the post "Read me" shows "Hide post text"
+      …
+    """)]
 public async Task TextPostIconOpensATextPostsTextWithAPageIconWhoseChevronFlips(Screen screen)
 {
     // Given
@@ -146,49 +153,26 @@ public async Task TextPostIconOpensATextPostsTextWithAPageIconWhoseChevronFlips(
         .ShowsTheText("The hidden text")
         .ShowsTheTextButton(new TextPostButton.HidePostText());
 
-    // When
-    await Phone.BaconReader.Main.Posts.ClickTextButtonAsync("Read me", new TextPostButton.HidePostText());
-    await Phone.BaconReader.Main.Posts.WaitUntilPostTextHiddenAsync("Read me");
-
-    // Then
-    var cardClosedAgain = await Phone.BaconReader.Main.Posts.ReadPostAsync("Read me");
-    Asserting.That(cardClosedAgain)
-        .ShowsNoText()
-        .ShowsTheTextButton(new TextPostButton.ShowPostText());
-
-    // When
-    await Phone.BaconReader.Main.Toolbar.ClickMoreOptionsAsync();
-    await Phone.BaconReader.Main.Toolbar.MoreOptions.WaitUntilShownAsync();
-    await Phone.BaconReader.Main.Toolbar.MoreOptions.ClickAsync(new OverflowMenuEntry.ListView());
-    await Phone.BaconReader.Main.Posts.WaitUntilShownAsRowsAsync();
-
-    // Then
-    var rowClosed = await Phone.BaconReader.Main.Posts.ReadPostAsync("Read me");
-    Asserting.That(rowClosed).ShowsTheTextButton(new TextPostButton.ShowPostText());
-
-    // When
-    await Phone.BaconReader.Main.Posts.ClickTextButtonAsync("Read me", new TextPostButton.ShowPostText());
-    await Phone.BaconReader.Main.Posts.WaitUntilPostTextShownAsync("Read me");
-
-    // Then
-    var rowOpen = await Phone.BaconReader.Main.Posts.ReadPostAsync("Read me");
-    Asserting.That(rowOpen)
-        .ShowsTheText("The hidden text")
-        .ShowsTheTextButton(new TextPostButton.HidePostText());
-
-    // When
-    await Phone.BaconReader.Main.Posts.ClickTextButtonAsync("Read me", new TextPostButton.HidePostText());
-    await Phone.BaconReader.Main.Posts.WaitUntilPostTextHiddenAsync("Read me");
-
-    // Then
-    var rowClosedAgain = await Phone.BaconReader.Main.Posts.ReadPostAsync("Read me");
-    Asserting.That(rowClosedAgain)
-        .ShowsNoText()
-        .ShowsTheTextButton(new TextPostButton.ShowPostText());
+    // … and the same for hiding it, then again in the list view.
 }
 ```
 
-## Block 4: Green, recorded, posted
+The full test: [TextPostIconTests.cs](https://github.com/JoanComasFdz/baconreader-reseam-patches/blob/main/tests/BaconReader.E2E/Scenarios/LoggedIn/Posts/TextPostIcon/TextPostIconTests.cs).
+
+You might say: "That's what SpecFlow is for." It isn't, for me. SpecFlow needs a layer in between: small, disconnected
+functions that match your sentences. And everyone writes their sentences their own way. "When the simulator is
+loaded", "when the simulator is ready", "when the simulator is configured"... and instead of agreeing on one language,
+you end up with a pile of regexes for the same step.
+
+With an LLM, that layer is gone. I have three plain Markdown files:
+
+1. how to write a Gherkin,
+2. how to write an end-to-end test,
+3. how to turn one into the other, line by line.
+
+That's it.
+
+## Block 4: Let it run until it's green
 
 I always read the Gherkin. The question is when.
 
@@ -197,17 +181,19 @@ skim it, and usually it's fine. By the third or fourth time, the rules have prov
 ahead" and read the Gherkin afterwards, with the video next to it. Watching the app do it is more engaging than
 picturing it from text, and it tells me more.
 
-That's judgement, not a rule. It works because my instructions tell the AI what happens after the Gherkin, step by
-step:
+That's judgement, not a rule. It works because my instructions tell the AI what happens after the Gherkin:
 
 1. AI writes the end-to-end test from the Gherkin.
 2. AI runs it, and fixes what fails until it passes.
-3. When it's green, AI records it on the phone.
-4. AI opens a pull request and posts the recordings on it: a GIF to watch right there in the comment, and an MP4.
+
+## Block 5: Recorded and posted on the PR
+
+When the test is green, AI records it on the phone. Then it opens a pull request and posts the recordings on it: a GIF
+to watch right there in the comment, and an MP4.
 
 It might take two hours. I don't care. When it's done, I open the PR and there's the Gherkin and the app doing it.
 
-## Block 5: The video and the Gherkin, in sync
+## Block 6: The video and the Gherkin, in sync
 
 A GIF wasn't enough. While it records, the test also notes the moment each line of the Gherkin starts. A small player
 puts the Gherkin on the left and the video on the right. Press play and the line being played lights up. Click a line
@@ -215,7 +201,7 @@ and the video jumps there.
 
 You don't watch a video. You follow a script, line by line, and see each one happen.
 
-## Block 6: One video per feature
+## Block 7: One video per feature
 
 Most people write many short tests, each checking one small thing. I went the other way: one feature, one scenario
 that plays the whole of it.
@@ -226,7 +212,7 @@ one feature, so it's one video that shows both. Some of mine run seven minutes.
 Why? Because that's what a training looks like. If someone sat next to you to show you a feature, they wouldn't
 cut it into twelve clips.
 
-## Block 7: The user guide builds itself
+## Block 8: The user guide builds itself
 
 So now I had a Gherkin, a recording and a short page for every feature. That's a user guide.
 
@@ -235,7 +221,7 @@ recording playing next to its Gherkin. Nobody writes it, and it can't go stale, 
 
 When someone on Reddit asks how something works, I send them the guide: "this is how it works."
 
-## Block 8: Then I kept going
+## Block 9: Then I kept going
 
 - **Installing and updating** are recorded too, so the guide starts with how to get the app.
 - **A VS Code extension**: open a test, click "Play", and the Gherkin and its video open next to the code.
