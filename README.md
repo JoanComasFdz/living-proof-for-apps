@@ -190,8 +190,10 @@ That's judgement, not a rule. It works because my instructions tell the AI what 
 
 ## Block 5: Recorded and posted on the PR
 
-When the test is green, AI records it on the phone. Then it opens a pull request and posts the recordings on it: a GIF
-to watch right there in the comment, and an MP4.
+When the test is green, AI records it. Then it opens a pull request and posts the recordings on it: a GIF to watch
+right there in the comment, and an MP4.
+
+The PR of the scenario above: [BaconReader patches #114](https://github.com/JoanComasFdz/baconreader-reseam-patches/pull/114).
 
 It might take two hours. I don't care. When it's done, I open the PR and there's the Gherkin and the app doing it.
 
@@ -202,6 +204,8 @@ puts the Gherkin on the left and the video on the right. Press play and the line
 and the video jumps there.
 
 You don't watch a video. You follow a script, line by line, and see each one happen.
+
+**[▶ Play the scenario above in the player](https://joancomasfdz.github.io/baconreader-reseam-patches/e2e-player.html?v=pr-114-v3-text-post-icon-opens-a-text-posts-text-with-a-page-icon-whose-chevron-flips-phone.mp4#s=7VOxbtswEP2Vg7oSrEhZluUp7dIWaJfEaAc7AyteLAIOKYiM3aDov_coSkgCx0EMdOiQyffI43v3ns6_s222zC661lnc2KsGreqNW8IKfwXonA9gGmfBdWg9KAjT8eYuz2Xl08HBhJYuO7XF1H5onUdoWtz3hG52pvMbC_DJ7NHCJWptArQqEg4SA5m8RKXhFhMAY6F_jxITeWgxSaXbFcHWaE1s8TQdRoUPVsNHRSNEMuzBeJoq0CA68eAe-_t0NLUnappCNY27syG-2bntlp4Ye4IzxhGvfrQ0wRfwuMMmDExpFJp7tHGDqGPnuycUPqg--OgxvmlUr2Fv8MAhGosJTvFq9E1vumAoRq_uPSWrSEh1nbFboBS1Q8-jwCqOEtlOJupbd_DjzRXVqfM4v1eQWJfePURAI71ADe7l2c4xcM4qvDqPz0bjc3kcuXuu8V-6e5TsWQZOfdAjA99cj7S_caP8w19tCNW53U_VT9KPH301RPydNvR8Q2eO97Y9_8v2ZCy7zZbrdcFyXsxYfs3WMpblUM6Y5HI-lCWbcZHKOat4sRjKBat5JYeyZiLnZapFzoTgxQgEE5KXiVxIJopJSRRMEOsIZkyUvEgSomRiPunRD4F6BBUTFa-SvFgwUfNRpmYyTwZyJgXPU78UESxGIJmUfD6CgsmCL-oEyOqMzyO4_vMX)**
 
 ## Block 7: One video per feature
 
@@ -221,7 +225,7 @@ So now I had a Gherkin, a recording and a short page for every feature. That's a
 After every merge, the pipeline puts them together into one page: each feature, what it does, and its newest
 recording playing next to its Gherkin. Nobody writes it, and it can't go stale, because it is the tests.
 
-When someone on Reddit asks how something works, I send them the guide: "this is how it works."
+When a user asks how something works, I send them the guide: "this is how it works."
 
 ## Block 9: Then I kept going
 
