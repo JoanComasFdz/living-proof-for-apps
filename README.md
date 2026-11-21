@@ -250,9 +250,9 @@ the extension working too.
 
 Basically, I applied this whole workflow everywhere.
 
-## What my job is now
+## How I develop apps now
 
-I describe what I want. I answer two or three questions. I say "go ahead, don't bother me until the video is done."
+I describe what I want. I answer any questions the AI has. I move on to something else until the work is finished.
 
 Then I watch the video and read the Gherkin, and I say one of three things:
 
@@ -260,8 +260,8 @@ Then I watch the video and read the Gherkin, and I say one of three things:
 - "That's not how I expected this to work."
 - "Excellent job, merge."
 
-I'm not testing the app anymore. The tests do. I don't read a plan, understand it and criticize it. If the code isn't
-what I wanted, I'll see it in the app.
+I'm not manually testing the app anymore. The tests do. I don't read a plan, understand it and criticize it
+beforehand. If the code isn't what I wanted, I'll see it in the app.
 
 ## "But what about performance? Security?"
 
