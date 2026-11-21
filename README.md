@@ -89,13 +89,13 @@ Scenario: Text post icon opens a text post's text with a page icon whose chevron
 
 ## Block 2: A place where the app can really run
 
-For a web page it's simple: open a browser with Playwright and click around.
+This is where I invested the most.
 
-For a patched APK, not so much. I have a real phone plugged into my NAS at home. Only a Docker container on the NAS can
-reach it, and only through my private network.
+I have a real phone plugged into my NAS at home. Only a Docker container on the NAS can reach it, and only through my
+private network.
 
-For both, I use simulators for the third-party services the app depends on, like Reddit, so every test starts from
-the same state. The simulators are configurable and have their own screens, so when a test sets one up, the setup
+I use simulators for the third-party services the app depends on, like Reddit, so every test starts from the same
+state. The simulators are configurable and have their own screens, so when a test sets one up, the setup
 plays in the video too: even the Given is something you can watch.
 
 It took a lot of work to make it secure, reliable and fast. That work is what everything else stands on.
