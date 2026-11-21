@@ -281,7 +281,7 @@ Living Proof is how I build:
 
 ---
 
-*How this article was written: I explained all of this to a friend in a WhatsApp voice note. AI transcribed it and
+**AI disclaimer:** *I explained all of this to a friend in a WhatsApp voice note. AI transcribed it and
 split it into the blocks of a first draft. I reworded everything myself, then had AI proofread it.*
 
 ---
