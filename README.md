@@ -188,7 +188,7 @@ public async Task TextPostIconOpensATextPostsTextWithAPageIconWhoseChevronFlips(
 }
 ```
 
-## Block 5: Green, recorded, posted
+## Block 4: Green, recorded, posted
 
 I always read the Gherkin. The question is when.
 
@@ -197,17 +197,17 @@ skim it, and usually it's fine. By the third or fourth time, the rules have prov
 ahead" and read the Gherkin afterwards, with the video next to it. Watching the app do it is more engaging than
 picturing it from text, and it tells me more.
 
-That's judgement, not a rule. It works because the rest of the instructions take care of everything after the
-Gherkin:
+That's judgement, not a rule. It works because my instructions tell the AI what happens after the Gherkin, step by
+step:
 
-- you write the Gherkin, so you write its test;
-- you run it, and it has to pass;
-- when it's green, you record it on the phone;
-- you open a pull request, and post the recordings on it: a GIF to watch right there in the comment, and an MP4.
+1. AI writes the end-to-end test from the Gherkin.
+2. AI runs it, and fixes what fails until it passes.
+3. When it's green, AI records it on the phone.
+4. AI opens a pull request and posts the recordings on it: a GIF to watch right there in the comment, and an MP4.
 
 It might take two hours. I don't care. When it's done, I open the PR and there's the Gherkin and the app doing it.
 
-## Block 6: The video and the Gherkin, in sync
+## Block 5: The video and the Gherkin, in sync
 
 A GIF wasn't enough. While it records, the test also notes the moment each line of the Gherkin starts. A small player
 puts the Gherkin on the left and the video on the right. Press play and the line being played lights up. Click a line
@@ -215,7 +215,7 @@ and the video jumps there.
 
 You don't watch a video. You follow a script, line by line, and see each one happen.
 
-## Block 7: One video per feature
+## Block 6: One video per feature
 
 Most people write many short tests, each checking one small thing. I went the other way: one feature, one scenario
 that plays the whole of it.
@@ -226,7 +226,7 @@ one feature, so it's one video that shows both. Some of mine run seven minutes.
 Why? Because that's what a training looks like. If someone sat next to you to show you a feature, they wouldn't
 cut it into twelve clips.
 
-## Block 8: The user guide builds itself
+## Block 7: The user guide builds itself
 
 So now I had a Gherkin, a recording and a short page for every feature. That's a user guide.
 
@@ -235,7 +235,7 @@ recording playing next to its Gherkin. Nobody writes it, and it can't go stale, 
 
 When someone on Reddit asks how something works, I send them the guide: "this is how it works."
 
-## Block 9: Then I kept going
+## Block 8: Then I kept going
 
 - **Installing and updating** are recorded too, so the guide starts with how to get the app.
 - **A VS Code extension**: open a test, click "Play", and the Gherkin and its video open next to the code.
