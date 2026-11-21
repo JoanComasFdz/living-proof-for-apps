@@ -5,7 +5,7 @@ This is how I verify my apps nowadays:
 1. I ask AI with an unstructured prompt
 2. AI asks me clarifying questions
 3. AI presents a Gherkin
-4. I criticise until I approve it
+4. I criticize until I approve it
 5. AI implements it, writes the tests, runs them and records them
 
 Then I review the work by **watching a video** of the feature working, together with its Gherkin.
@@ -55,12 +55,13 @@ Here is how it's built, one block at a time.
 When I prompt for a task, the AI shows me how it will prove the feature works, as Gherkin: Given, When, Then.
 
 I have a whole file on how to write a Gherkin. I use precise language: on this screen, tap this button, this text
-shows. And the texts are copied from the UIs, never from the code. This way anyone could pick up the Gherkin and play it on the
-phone with nothing left to guess.
+shows. And the texts are copied from the UIs, never from the code. This way anyone could pick up the Gherkin and play
+it on the phone with nothing left to guess.
 
 Here's the Gherkin of the video above:
 
 ```gherkin
+@phone
 Scenario: Text post icon opens a text post's text with a page icon whose chevron flips
   Given Reddit has a post "Read me" in r/e2e with the text "The hidden text"
   And BaconReader is patched with every patch
@@ -166,7 +167,7 @@ functions that match your sentences. And everyone writes their sentences their o
 loaded", "when the simulator is ready", "when the simulator is configured"... and instead of agreeing on one language,
 you end up with a pile of regexes for the same step.
 
-With an LLM, that layer is gone. I have three plain Markdown files:
+With AI, that layer is gone. I have three plain Markdown files:
 
 1. how to write a Gherkin,
 2. how to write an end-to-end test,
@@ -183,9 +184,9 @@ skim it, and usually it's fine. By the third or fourth time, the rules have prov
 ahead" and read the Gherkin afterwards, with the video next to it. Watching the app do it is more engaging than
 picturing it from text, and it tells me more.
 
-That's judgement, not a rule. It works because my instructions tell the AI what happens after the Gherkin:
+That's judgment, not a rule. It works because my instructions tell the AI what happens after the Gherkin:
 
-1. AI writes the end-to-end test from the Gherkin.
+1. AI implements the feature and writes the end-to-end test from the Gherkin.
 2. AI runs it, and fixes what fails until it passes.
 
 ## Block 5: Recorded and posted on the PR
@@ -212,8 +213,8 @@ You don't watch a video. You follow a script, line by line, and see each one hap
 Most people write many short tests, each checking one small thing. I went the other way: one feature, one scenario
 that plays the whole of it.
 
-Take "embed images in comments", with a setting to turn it on or off. Off, you see a link. On, the image loads. That's
-one feature, so it's one video that shows both. Some of mine run seven minutes.
+Take "Embed comment images", with its "Show images" setting. Off, a comment shows a link. On, it shows the image.
+That's one feature, so it's one video that shows both. Some of mine run seven minutes.
 
 Why? Because that's what a training looks like. If someone sat next to you to show you a feature, they wouldn't
 cut it into twelve clips.
@@ -238,8 +239,8 @@ may be out of date.
 ## Block 10: The video next to the code
 
 The recordings were in the PRs and in the guide, but not where I read the tests. So I built a VS Code extension: it
-puts a button on top of each end-to-end test, and clicking it opens the player next to the code, with the Gherkin and
-its newest video.
+puts a button on top of each end-to-end test, and clicking it plays the test's newest video next to the code, one
+click away from the player with its Gherkin.
 
 That wasn't enough for me either. The extension got its own end-to-end tests, recorded like the app's, so I can see
 the extension working too.
@@ -265,7 +266,7 @@ beforehand. If the code isn't what I wanted, I'll see it in the app.
 
 ## "But what about performance? Security?"
 
-Fair questions. They're not arguments against this; they're the next blocks. For performance I'd do the same thing:
+Fair questions. They're not arguments against this; they're the next things to build. For performance I'd do the same thing:
 an environment that measures it, runs every night, gathers the evidence and shows me what got better or worse. I'd
 look at the results, not the code.
 
