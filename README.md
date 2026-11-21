@@ -1,26 +1,54 @@
 # Living Proof
 
-*Show, don't claim: user guides recorded from your end-to-end tests.*
+This is how I verify my apps nowadays:
 
-<!-- DRAFT 1, written from the voice note. Not for publishing yet. -->
+1. I ask AI with an unstructured prompt
+2. AI asks me clarifying questions
+3. AI presents a Gherkin
+4. I criticise until I approve it
+5. AI implements it, writes the tests, runs them and records them
 
-> This is how I verify my apps nowadays: I don't read the code. I watch it work.
-
-[GIF: one scenario playing beside its Gherkin, each line lighting up as it plays]
-
-**See it live:** [BaconReader patches user guide](https://joancomasfdz.github.io/baconreader-morphe-patches/)
+Then I review the work by **watching a video** of the feature working, together with its Gherkin.
 
 ---
 
 ## Why I needed this
 
-I patch an Android app. I change code I didn't compile, in an app I don't own, and I let an AI write most of the
-changes. How do you test that?
+For a long time (in AI time, at least) I worked with planning skills: Superpowers first, then Matt Pocock's. When
+models weren't as good, they were a must. As the models got better, my confidence grew, and the process started to
+feel heavier than the work itself. Understanding a plan and reviewing every line of code it planned took real mental
+effort, and I still couldn't see anything working. Colleagues suggested skipping the plan and reviewing the PR
+instead. Given my own experience with AI, I wasn't ready for that yet.
 
-You can't read your way to confidence. The AI writes code faster than I can review it, and "done, the tests pass" is a
-claim, not proof. What I actually want to know is simple: does the feature do what we agreed, on a real screen?
+There was another catch: the plans weren't checked against the current code, so during implementation the agent
+often had to correct them. I tried telling the agent to verify the plan against the code. It worked, and the
+implementation was flawless, but to verify the plan the agent had to write a first version of the code. Throwaway or
+not, the code had to be written before the plan could be trusted.
 
-So I stopped reading the code and started watching it work. Here is how it's built, one block at a time.
+My conclusion was: if it has to be partially or fully implemented anyway, then just implement it. So I started
+skipping the plans and reviewing the PRs, as my colleagues suggested. And I stopped using the skills so dogmatically.
+
+At this point I still had to read the tests and picture the whole process in my mind. And I still had to run the app
+myself to make sure it started and worked as expected.
+
+Then I started playing with Android patching frameworks. AI was decompiling an APK and exploring it to make sense of
+it, to then write code I could not even comprehend, in an app I didn't have the source code for. And I still had to
+test it manually, to make sure there weren't any runtime errors and that the patch did what I defined.
+
+So the obvious question arose: how can I actually be sure that an app does what I defined?
+
+Unit tests prove the pieces, not the app. They won't tell you if the app starts, if it does what it should, or if
+there are bugs in the seams. I can have 2,000 unit tests and the app may still not start.
+
+In the end, what I actually want to know is simple: does the real app behave exactly as I defined?
+
+There's only one way to know: watch it work.
+
+[![A scenario playing in the e2e player: each line of the Gherkin lights up as the phone does it](media/head-demo.gif)](media/head-demo.mp4)
+
+Here is how it's built, one block at a time.
+
+---
 
 ## Block 1: Ask me what's missing, don't grill me
 
